@@ -1,1 +1,1 @@
-bytes
+digest
