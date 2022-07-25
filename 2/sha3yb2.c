@@ -13,8 +13,7 @@
 
 #define KECCAK_SHA3_SUFFIX      0x06
 #define KECCAK_SHAKE_SUFFIX     0x1F
-// #define messize                 2097232
-#define messize 160
+#define messize                 1048616 // 1048616
 
 typedef unsigned long long BYTE;
 
@@ -375,8 +374,8 @@ void printState2(char* state, size_t size) {
     }
 }
 void printState3(uint8_t* state, size_t size) {
-    printf("\n[C] : 받은 s값 출력, uint8_t 자료형\n");
-    for(int i=0; i<64; i++) {
+    printf("\n[C]\n");// : 받은 s값 출력, uint8_t 자료형\n");
+    for(int i=0; i<size; i++) {
         // if (i % 4 != 0) {
         printf("%02X ", state[i]);
         // }
@@ -384,103 +383,51 @@ void printState3(uint8_t* state, size_t size) {
 }
 
 uint8_t* tmp;
-uint8_t out[64] = { 0, };
-char out2[messize]; // 1024
+uint8_t out[65] = { 0, };       // 64 byte
+uint8_t input3[messize];
 
-void my_hash2(char* message) {
-    int j=0;
-    for(int i=0; i<(messize*4); i+=4) { // [bus error] 2097232 -> 1048616
-        out2[j]=message[i];
-        j++;
+void my_hash2(uint8_t* message) {
+    /*
+    for (int k=0; k<messize; k++) {
+        printf("[%d] ",message[k]);
     }
-    printf("(C : 0");
-    ascii_to_hex(out2, 2097232,input1); // 2097232
+    printf("[C1] : \n");
+   */
+    
+    for (int k=0; k<messize; k++) {
+        input3[k]=message[k];
+    }
 
-    printf("1");
-    // ================================
-    // [hash func]
-    // ================================
-
-    int out_length = 0;     //byte size
+    int out_length = 256 / 8;   //byte size -> 64 byte
     int in_length = 200;
-    int hash_bit = 0;       //bit(224,256,384,512)
-    int SHAKE = 0;          //0 or 1
-
+    int hash_bit = 256;         //256 bit
+    int SHAKE = 0;              //0 or 1
     int i, result;
-    SHAKE = 0;
-    out_length = 256 / 8;
-    hash_bit = 256;
-    printf("2");
-    result = sha3_hash(out, out_length, input1, in_length, hash_bit, SHAKE);
-    printf("3");
 
-    for(int i=0; i<(out_length*2); i++) {
-        out2[2*i] = (char)(out[i]>>4);
-        out2[2*i+1] = (char)(out[i]&15);
+    result = sha3_hash(out, out_length, input3, in_length, hash_bit, SHAKE);
+    for (int k=0; k<64; k++) {
+        message[k]=out[k];
+        if (out[k]==0) {
+            message[k]=0x01;
+        }
     }
-    printf("4)");
+    message[33]=0xff;
 
-    for (int i=0; i<out_length; i++) {
-        if (out2[i]==0) 
-            message[i*4]='0';
-        if (out2[i]==1) 
-            message[i*4]='1';
-        if (out2[i]==2) 
-            message[i*4]='2';
-        if (out2[i]==3) 
-            message[i*4]='3';
-        if (out2[i]==4) 
-            message[i*4]='4';
-        if (out2[i]==5) 
-            message[i*4]='5';
-        if (out2[i]==6) 
-            message[i*4]='6';
-        if (out2[i]==7) 
-            message[i*4]='7';
-        if (out2[i]==8) 
-            message[i*4]='8';
-        if (out2[i]==9) 
-            message[i*4]='9';
-        if (out2[i]==10) 
-            message[i*4]='A';
-        if (out2[i]==11) 
-            message[i*4]='B';
-        if (out2[i]==12) 
-            message[i*4]='C';
-        if (out2[i]==13) 
-            message[i*4]='D';
-        if (out2[i]==14) 
-            message[i*4]='E';
-        if (out2[i]==15)
-            message[i*4]='F';
-    }
-    printf("[%02x]", out2[64]);
-    // printState2(message,200);
+    /*
+    printState3(out,32);
+    printState3(message,32);
+
+    printState3(message,32);
+    */
+    
 }
 
 int main()
 {
     int out_length = 0;
 
-    // int i;
     uint8_t* result;
     char* result2;
-
-    // memset(in, 0xA3, 200);  // in[0] = 0x30 in[1] = 0x30 .... in[1048615] = 0x37
-    printf("* SHA-3 test *\n\n");
-    printf("test message : A3(x200)\n\n");
-    /* non-SHAKE test */
-    // SHAKE = 0;
-
-    /* SHA3-256 test */
-    out_length = 256 / 8;
-    // printf("SHA3-256 test\n");
-    // printf("hash : ");
-    // for (i = 0; i < out_length; i++)
-        // printf("%02x ", result[i]);
-
-    // for (int i = 0; i < out_length; i++)
-        // printf("%02x ", result2[i]);
 
     printf("\n\n");
     

@@ -83,5 +83,8 @@ import random
 # # print(format(hex(int(a)), '0216x'))
 # print(hex(int(a))[2:].ljust(216,'0'))
 # print(256*8192)
-a = b'0'*20
-print(len((a).hex()))
+# a = b'0'*20
+# print(len((a).hex()))
+# print(len("0000000000000000000000000000000000000000".encode("UTF-8")))
+s = "99f17ddf9c01562e03543bf32b23fb29e7bf6131"
+print(len(s))
