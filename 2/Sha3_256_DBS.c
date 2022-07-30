@@ -1,4 +1,8 @@
-#include "sha3yb.h"
+// ================================================================================== 
+//                 2022 암호분석경진대회 2번문제 - DaBakSal(DBS) - sha3_256
+// ================================================================================== 
+
+#include "Sha3_256_DBS.h"
 
 #define KECCAK_SPONGE_BIT       1600
 #define KECCAK_ROUND            24
@@ -13,15 +17,9 @@
 
 #define KECCAK_SHA3_SUFFIX      0x06
 #define KECCAK_SHAKE_SUFFIX     0x1F
-#define messize                 1048616 // 1048616
+#define messize                 1048616 // Total Block Size -> 1bytes * 1048616
 
 typedef unsigned long long BYTE;
-
-// 마지막 NULL을 넣어둠
-// char message[messize * 4 + 1] = { 0, };
-uint8_t input1[1048617] = { 0, };
-uint8_t input2[1048617] = { 0, };
-// uint8_t input2[200] = { 0, };
 
 typedef enum
 {
@@ -348,7 +346,7 @@ int sha3_hash(uint8_t* output, int outLen, uint8_t* input, int inLen, int bitSiz
     ret = sha3_final(output, outLen);
     return ret;
 }
-
+/*
 uint8_t ascii_to_hex(const char* str, size_t size, uint8_t* hex)
 {
     uint8_t i, h, high, low;
@@ -359,6 +357,7 @@ uint8_t ascii_to_hex(const char* str, size_t size, uint8_t* hex)
         }
     return h;
 }
+*/
 void printState(uint8_t* state, size_t size) {
     printf("\n [Hello, World1]\n");
     for(int i=0; i<1000000; i++)
@@ -368,17 +367,13 @@ void printState(uint8_t* state, size_t size) {
 void printState2(char* state, size_t size) {
     printf("\n[C] : 받은 s값 출력, char 자료형\n");
     for(int i=0; i<300; i++) {
-        // if (i % 4 != 0) {
         printf("%d ", state[i]);
-        // }
     }
 }
 void printState3(uint8_t* state, size_t size) {
-    printf("\n[C]\n");// : 받은 s값 출력, uint8_t 자료형\n");
+    printf("\n[C]\n"); // : 받은 값 출력, uint8_t 자료형
     for(int i=0; i<size; i++) {
-        // if (i % 4 != 0) {
         printf("%02X ", state[i]);
-        // }
     }
 }
 
@@ -386,14 +381,7 @@ uint8_t* tmp;
 uint8_t out[65] = { 0, };       // 64 byte
 uint8_t input3[messize];
 
-void my_hash2(uint8_t* message) {
-    /*
-    for (int k=0; k<messize; k++) {
-        printf("[%d] ",message[k]);
-    }
-    printf("[C1] : \n");
-   */
-    
+void hashFunc(uint8_t* message) {
     for (int k=0; k<messize; k++) {
         input3[k]=message[k];
     }
@@ -411,15 +399,7 @@ void my_hash2(uint8_t* message) {
             message[k]=0x01;
         }
     }
-    message[33]=0xff;
-
-    /*
-    printState3(out,32);
-    printState3(message,32);
-
-    printState3(message,32);
-    */
-    
+    message[33]=0xff;    
 }
 
 int main()
