@@ -1,10 +1,8 @@
-# 2022-
-2022암호분석경진대회
+# 2022-암호분석경진대회
+Block Chain - SHA3_256
 
-0705 - 블록체인 모듈 구성완료(base58제외) <br>
-
-0707 - hash 모듈 구현완료
-- ctype.c_char_p(ans).decode() # segment fault Error
-
-0726 - 블록체인 모듈 구성완료(base58제외) 및 C 라이브러리(Sha3_256) 연동 완료 <br>
+블록체인 모듈 구성완료 <br>
+hash 모듈 구현완료 <br>
+- hash함수(SHA3_256) : C 라이브러리로 구현
+- ctype pointer를 이용하여 python 블록암호에서 이용 
 - mongomery 연산 추가 예정 <br>
