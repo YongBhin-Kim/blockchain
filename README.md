@@ -1,5 +1,4 @@
 # 블록체인
 
-파이썬 기반의 블록체인 모듈 <br>
-
-검증을 위한 Hash함수는 C언어 라이브러리로 구현 <br>
+- Implementation of toy blockchain (Language python) <br>
+- Hash function for validation (Language C)
